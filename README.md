@@ -24,3 +24,5 @@ Things you may want to cover:
 * Mina Samy
 
 * Fahd Yousri
+
+* Ahmed Kamel
