@@ -7,9 +7,9 @@ class UsersController < ApplicationController
     user = User.new(user_params)
     user.user_pin=verificationCode
     user.save
-    client = Twilio::REST::Client.new('AC0c2d3ab09c883ba878dc84cc67b236be', 'be87463ef306d5692360f4dff8ea365a')
+    client = Twilio::REST::Client.new('sid', 'token')
         client.api.account.messages.create(
-          from: '+13852177828',
+          from: 'sender number',
           to: '+2'+user.phone,
           body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
         )
