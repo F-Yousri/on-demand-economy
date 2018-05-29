@@ -25,7 +25,7 @@ gem 'carrierwave', '~> 1.0'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
-
+gem 'twilio-ruby'
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'pry-rails'

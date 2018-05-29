@@ -3,9 +3,18 @@ class UsersController < ApplicationController
   # POST /signup
   # return authenticated token upon signup
   def create
-    user = User.create!(user_params)
+    verificationCode=rand(9999)
+    user = User.new(user_params)
+    user.user_pin=verificationCode
+    user.save
+    client = Twilio::REST::Client.new('sid', 'token')
+        client.api.account.messages.create(
+          from: 'sender number',
+          to: '+2'+user.phone,
+          body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
+        )
     auth_token = AuthenticateUser.new(user.email, user.password).call
-    response = { message: Message.account_created, auth_token: auth_token }
+    response = { message: Message.account_created, auth_token: auth_token, user: user }
     json_response(response, :created)
   end
 
@@ -16,7 +25,8 @@ class UsersController < ApplicationController
       :name,
       :email,
       :password,
-      :password_confirmation
+      :password_confirmation,
+      :phone
     )
   end
 end
