@@ -7,7 +7,6 @@ class CreateOrders < ActiveRecord::Migration[5.0]
       t.string :to
       t.integer :provider_id
       t.integer :provider_order_id
-
       t.timestamps
     end
   end

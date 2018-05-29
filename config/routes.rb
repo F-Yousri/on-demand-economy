@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   
 
   resources :orders
-
+  resources :providers
   post 'auth/login', to: 'authentication#authenticate'
   post 'signup', to: 'users#create'
 end
