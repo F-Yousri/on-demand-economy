@@ -24,6 +24,7 @@ gem 'carrierwave', '~> 1.0'
 # gem 'capistrano-rails', group: :development
 # Use rails_admin for adminstaration panel
 gem 'rails_admin', '~> 1.3'
+gem 'devise'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
