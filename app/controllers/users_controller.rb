@@ -15,10 +15,7 @@ class UsersController < ApplicationController
     #       to: '+2'+user.phone,
     #       body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
     #     )
-<<<<<<< HEAD
-    
-=======
->>>>>>> cdec2c8b11f9912950f56c09ee7b7cf022c8b124
+
     auth_token = AuthenticateUser.new(user.email, user.password).call
     response = { message: Message.account_created, auth_token: auth_token, user: user }
     json_response(response, :created)
