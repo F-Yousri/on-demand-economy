@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
     # before_action :set_order, only: [:show, :update, :destroy]
-
+    before_action :authorize_request
     def create
         order = Order.create!(order_params)
         @provider=Provider.find(params[:provider_id])
@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
     end
 
     def set_order
-        @order = Todo.find(params[:id])
+        @order = Order.find(params[:id])
     end
 
     def order_params

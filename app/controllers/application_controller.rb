@@ -1,9 +1,10 @@
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
   include Response
   include ExceptionHandler
 
   # called before every action on controllers
   before_action :authorize_request, :is_verified
+
   attr_reader :current_user
 
   private

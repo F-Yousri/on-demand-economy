@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize_request,:is_verified,  only: :create
-  skip_before_action :is_verified, only: :verify
+
+  before_action :authorize_request, except: :create
+  before_action :is_verified, except: [:verify, :create]
   # POST /signup
   # return authenticated token upon signup
   def create
@@ -32,7 +33,7 @@ class UsersController < ApplicationController
       user.save()
       json_response(user)
     elsif
-      json_response(@current_user.user_pin)
+      json_response("incorrect varification code")
     end
   end
 
