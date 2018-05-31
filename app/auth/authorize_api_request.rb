@@ -9,6 +9,9 @@ class AuthorizeApiRequest
       user: user
     }
   end
+  
+
+ 
 
   private
 
