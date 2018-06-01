@@ -4,20 +4,22 @@ class OrdersController < ApplicationController
     # before_action :set_order, only: [:show, :update, :destroy]
     before_action :authorize_request
     def create
-        @json= JSON.parse(request.raw_post)
-        # payment_method=Payment_method::Payment.new(params[:payment_method])
-        # order = Order.create!(order_params)
-        # provider=Provider.find(params[:provider_id])
-        # render json: payment_method.payment_method
-        render plain: @json["data"]["name"]
-        # json_response(order)
+        order = Order.create!(order_params)
+        order.created_by=current_user.id
+        order.save
+        call_provider order
     end
 
     def set_order
         @order = Order.find(params[:id])
     end
-
+    
     def order_params
-        params.permit(:from,:to,:provider_id,:payment_method,:data, :name,images: [])
-      end
+        params.permit(:from,:to,:provider_id,:payment_method,:images)
+    end
+    private
+    def call_provider(order)
+        @provider=Provider.find(order.provider_id)
+        provider_url=@provider.url
+    end
 end
