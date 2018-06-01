@@ -2,7 +2,7 @@ require 'json'
 
 class OrdersController < ApplicationController
     # before_action :set_order, only: [:show, :update, :destroy]
-
+    before_action :authorize_request
     def create
         @json= JSON.parse(request.raw_post)
         # payment_method=Payment_method::Payment.new(params[:payment_method])
@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
     end
 
     def set_order
-        @order = Todo.find(params[:id])
+        @order = Order.find(params[:id])
     end
 
     def order_params
