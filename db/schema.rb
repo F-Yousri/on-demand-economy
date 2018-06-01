@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180528145327) do
+ActiveRecord::Schema.define(version: 20180530161836) do
+
+  create_table "items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string   "name"
+    t.boolean  "done"
+    t.integer  "todo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["todo_id"], name: "index_items_on_todo_id", using: :btree
+  end
 
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.json     "images"
@@ -21,12 +30,20 @@ ActiveRecord::Schema.define(version: 20180528145327) do
     t.integer  "provider_order_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.string   "payment_method"
   end
 
   create_table "providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "url"
     t.string   "name"
     t.integer  "rate"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "todos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string   "title"
+    t.string   "created_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -42,4 +59,5 @@ ActiveRecord::Schema.define(version: 20180528145327) do
     t.string   "phone"
   end
 
+  add_foreign_key "items", "todos"
 end
