@@ -1,6 +1,7 @@
 class ProvidersController < ApplicationController
+  
     def create
-        order = Provider.create!(provider_params)   
+        provider = Provider.create!(provider_params)   
     end
 
     private

@@ -1,25 +1,36 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  skip_before_action :authorize_request, only: %i[create forgot_password reset_password]
+  before_action :authorize_request, except: %i[create forgot_password reset_password]
   before_action :is_verified, except: %i[verify create forgot_password reset_password]
+  before_action :check_duplication , only: :create
   # POST /signup
   # return authenticated token upon signup
+  
+  def check_duplication
+
+    if User.find_by_email(user_params[:email])
+      json_response({ message: Message.email_already_exists})
+    elsif User.find_by_phone(user_params[:phone])
+      json_response({ message: Message.phone_already_exists})  
+    end
+    
+  end
+  
   def create
     verificationCode = rand(9999)
     user = User.new(user_params)
     user.user_pin = verificationCode
-    user.save
-    UserMailer.registeration_confirmation(user).deliver_now
-    # client = Twilio::REST::Client.new(Rails.application.secrets.sms_sid,Rails.application.secrets.sms_token)
+    if user.save
+    # client = Twilio::REST::Client.new('sid', 'token')
     #     client.api.account.messages.create(
-    #       from: Rails.application.secrets.sms_sender,
+    #       from: 'sender number',
     #       to: '+2'+user.phone,
     #       body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
     #     )
-
-    auth_token = AuthenticateUser.new(user.email,user.password).call
+    auth_token = AuthenticateUser.new(user.email, user.password).call
     response = { message: Message.account_created, auth_token: auth_token, user: user }
+    end
     json_response(response, :created)
   end
 

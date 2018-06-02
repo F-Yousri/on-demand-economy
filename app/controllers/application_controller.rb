@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include ExceptionHandler
 
   # called before every action on controllers
-  before_action :authorize_request, :is_verified
+ 
 
   attr_reader :current_user
 
@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def is_verified
    if !((AuthorizeApiRequest.new(request.headers).call)[:user].verified==true)
-      json_response("you aren't verified")
+      json_response({message: Message.account_not_verified})
    end
  
   end
