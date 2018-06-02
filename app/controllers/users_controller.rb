@@ -6,17 +6,7 @@ class UsersController < ApplicationController
   before_action :check_duplication , only: :create
   # POST /signup
   # return authenticated token upon signup
-  
-  def check_duplication
-
-    if User.find_by_email(user_params[:email])
-      json_response({ message: Message.email_already_exists})
-    elsif User.find_by_phone(user_params[:phone])
-      json_response({ message: Message.phone_already_exists})  
-    end
     
-  end
-  
   def create
     verificationCode = rand(9999)
     user = User.new(user_params)
@@ -69,7 +59,13 @@ class UsersController < ApplicationController
                 end
     json_response(user: @user, message: @message)
   end
-
+  def check_duplication
+    if User.find_by_email(user_params[:email])
+      json_response({ message: Message.email_already_exists})
+    elsif User.find_by_phone(user_params[:phone])
+      json_response({ message: Message.phone_already_exists})  
+    end
+  end
 
   private
 
