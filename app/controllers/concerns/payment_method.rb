@@ -10,7 +10,7 @@ module Payment_method
             when "master"
                 self.master
                 # break
-            when "visa"th_token =Authenth_token =Authen
+            when "visa"
                 self.visa
                 # break
             else
