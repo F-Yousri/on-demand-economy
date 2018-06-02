@@ -39,4 +39,14 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
+  RailsAdmin.config do |config|
+    config.model 'Provider' do
+      edit do
+        field :url, :string
+       field :name, :string
+        field :rate, :integer
+        field :image, :carrierwave
+      end
+    end
+  end
 end
