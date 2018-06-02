@@ -25,4 +25,13 @@ RailsAdmin.config do |config|
     # history_show
   end
   config.excluded_models << Admin
+  
+    config.model 'Provider' do
+      edit do
+        field :url, :string
+       field :name, :string
+        field :rate, :integer
+        field :image, :carrierwave
+      end
+    end
 end

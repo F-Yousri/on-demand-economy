@@ -21,8 +21,8 @@ class OrdersController < ApplicationController
     def call_provider(order)
         @provider=Provider.find(order.provider_id)
         provider_url=@provider.url
-        respose = Data_provider::Data.new(order,provider_url)
-        data=respose.get_response.body
+        response = Data_provider::Data.new(order,provider_url)
+        data=response.get_response.body
         render json: data
     end
 end

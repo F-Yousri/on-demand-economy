@@ -34,5 +34,17 @@ class Message
   def self.forgot_password_request
     'Kindly check your mail to reset your password'
   end
-  
+
+  def self.account_not_verified
+    'sorry this account is not yet verified'
+  end
+
+  def self.phone_already_exists
+    'sorry this phone already taken'
+  end
+
+  def self.email_already_exists
+    'sorry this email already taken'
+  end
+
 end

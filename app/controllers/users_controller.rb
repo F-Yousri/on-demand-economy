@@ -3,13 +3,15 @@
 class UsersController < ApplicationController
   before_action :authorize_request, except: %i[create forgot_password reset_password]
   before_action :is_verified, except: %i[verify create forgot_password reset_password]
+  before_action :check_duplication , only: :create
   # POST /signup
   # return authenticated token upon signup
+    
   def create
     verificationCode = rand(9999)
     user = User.new(user_params)
     user.user_pin = verificationCode
-    user.save
+    if user.save
     # client = Twilio::REST::Client.new('sid', 'token')
     #     client.api.account.messages.create(
     #       from: 'sender number',
@@ -18,6 +20,7 @@ class UsersController < ApplicationController
     #     )
     auth_token = AuthenticateUser.new(user.email, user.password).call
     response = { message: Message.account_created, auth_token: auth_token, user: user }
+    end
     json_response(response, :created)
   end
 
@@ -56,7 +59,13 @@ class UsersController < ApplicationController
                 end
     json_response(user: @user, message: @message)
   end
-
+  def check_duplication
+    if User.find_by_email(user_params[:email])
+      json_response({ message: Message.email_already_exists})
+    elsif User.find_by_phone(user_params[:phone])
+      json_response({ message: Message.phone_already_exists})  
+    end
+  end
 
   private
 
