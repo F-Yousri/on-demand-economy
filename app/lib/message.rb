@@ -30,4 +30,9 @@ class Message
   def self.expired_token
     'Sorry, your token has expired. Please login to continue.'
   end
+
+  def self.forgot_password_request
+    'Kindly check your mail to reset your password'
+  end
+  
 end

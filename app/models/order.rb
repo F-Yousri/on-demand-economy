@@ -1,6 +1,6 @@
 class Order < ApplicationRecord
-    validates_presence_of :from, :to, :provider_id,:images
-    mount_uploaders :images, ImagesUploader
+    validates_presence_of :from, :to, :provider_id,:payment_method
+    mount_uploader :images, ImagesUploader
 
 
 end

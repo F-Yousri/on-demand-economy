@@ -27,6 +27,11 @@ GEM
     activejob (5.0.7)
       activesupport (= 5.0.7)
       globalid (>= 0.3.6)
+    activemerchant (1.79.1)
+      activesupport (>= 4.2, < 6.x)
+      builder (>= 2.1.2, < 4.0.0)
+      i18n (>= 0.6.9)
+      nokogiri (~> 1.4)
     activemodel (5.0.7)
       activesupport (= 5.0.7)
     activerecord (5.0.7)
@@ -90,6 +95,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
+    json (1.8.6)
     jwt (2.1.0)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
@@ -243,12 +249,15 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activemerchant
   bcrypt (~> 3.1.7)
   carrierwave (~> 1.0)
   database_cleaner
   devise
   factory_girl_rails (~> 4.0)
   faker
+  faraday (~> 0.15.2)
+  json (~> 1.8, >= 1.8.3)
   jwt
   listen (~> 3.0.5)
   mysql2 (~> 0.5.1)
