@@ -48,7 +48,8 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
   database: demand-economy_production
   username: demand-economy
   password: <%= ENV['ON-DEMAND-ECONOMY_DATABASE_PASSWORD'] %>
