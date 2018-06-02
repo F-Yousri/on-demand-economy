@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  skip_before_action :authorize_request, only: %i[create forgot_password reset_password]
+  before_action :authorize_request, except: %i[create forgot_password reset_password]
   before_action :is_verified, except: %i[verify create forgot_password reset_password]
   # POST /signup
   # return authenticated token upon signup

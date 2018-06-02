@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include ExceptionHandler
 
   # called before every action on controllers
-  before_action :authorize_request, :is_verified
+ 
 
   attr_reader :current_user
 

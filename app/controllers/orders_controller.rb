@@ -2,7 +2,7 @@
 
 class OrdersController < ApplicationController
     # before_action :set_order, only: [:show, :update, :destroy]
-    before_action :authorize_request
+    before_action :authorize_request ,:is_verified
     def create
         order = Order.create!(order_params)
         order.created_by=current_user.id
