@@ -7,6 +7,12 @@ class ApplicationController < ActionController::Base
 
   attr_reader :current_user
 
+  before_action :cors_set_access_control_headers
+
+  	def cors_set_access_control_headers
+  		headers['Access-Control-Allow-Origin'] = '*'
+	end
+
   private
 
   # Check for valid request token and return user
