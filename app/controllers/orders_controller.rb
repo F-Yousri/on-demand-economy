@@ -1,4 +1,4 @@
-require 'json'
+# require 'json'
 
 class OrdersController < ApplicationController
     # before_action :set_order, only: [:show, :update, :destroy]
@@ -15,7 +15,7 @@ class OrdersController < ApplicationController
     end
     
     def order_params
-        params.permit(:from,:to,:provider_id,:payment_method,:images)
+        params.permit(:from,:to,:provider_id,:payment_method,:time,:title,:images)
     end
     private
     def call_provider(order)

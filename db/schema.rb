@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180601075723) do
+ActiveRecord::Schema.define(version: 20180602072051) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "email",                  default: "", null: false
@@ -29,15 +29,6 @@ ActiveRecord::Schema.define(version: 20180601075723) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
-  create_table "items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "name"
-    t.boolean  "done"
-    t.integer  "todo_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["todo_id"], name: "index_items_on_todo_id", using: :btree
-  end
-
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.json     "images"
     t.integer  "created_by"
@@ -49,19 +40,14 @@ ActiveRecord::Schema.define(version: 20180601075723) do
     t.datetime "updated_at",                            null: false
     t.string   "payment_method"
     t.string   "status",            default: "pending"
+    t.time     "time"
+    t.string   "title"
   end
 
   create_table "providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "url"
     t.string   "name"
     t.integer  "rate"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "todos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "title"
-    t.string   "created_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -77,5 +63,4 @@ ActiveRecord::Schema.define(version: 20180601075723) do
     t.string   "phone"
   end
 
-  add_foreign_key "items", "todos"
 end
