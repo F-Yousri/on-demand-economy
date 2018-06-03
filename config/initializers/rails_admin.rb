@@ -7,22 +7,7 @@ RailsAdmin.config do |config|
     warden.authenticate! scope: :admin
   end
 
-  # config.current_user_method(&:_current_user)
-
-  ## == Cancan ==
-  # config.authorize_with :cancan
-
-  ## == Pundit ==
-  # config.authorize_with :pundit
-
-  ## == PaperTrail ==
-  # config.audit_with :paper_trail, 'User', 'PaperTrail::Version' # PaperTrail >= 3.0.0
-
-  ### More at https://github.com/sferik/rails_admin/wiki/Base-configuration
-
-  ## == Gravatar integration ==
-  ## To disable Gravatar integration in Navigation Bar set to false
-  # config.show_gravatar = true
+  config.current_user_method(&:current_admin)
 
   config.actions do
     dashboard                     # mandatory
@@ -39,7 +24,8 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
-  RailsAdmin.config do |config|
+  config.excluded_models << Admin
+  
     config.model 'Provider' do
       edit do
         field :url, :string
@@ -48,5 +34,4 @@ RailsAdmin.config do |config|
         field :image, :carrierwave
       end
     end
-  end
 end
