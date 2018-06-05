@@ -47,4 +47,15 @@ class Message
     'sorry this email already taken'
   end
 
+  def self.success
+    'success'
+  end
+
+  def self.incorrect_varification_code
+  'incorrect varification code'
+  end
+  
+  def self.error_wihle_changing_password
+    'error_wihle_changing_password'
+  end
 end

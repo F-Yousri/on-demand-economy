@@ -23,6 +23,6 @@ class OrdersController < ApplicationController
         provider_url=@provider.url
         response = Data_provider::Data.new(order,provider_url)
         data=response.get_response.body
-        render json: data
+        json_response({ message: Message.succes , data: data})  
     end
 end
