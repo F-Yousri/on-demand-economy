@@ -3,7 +3,8 @@ module Data_provider
         attr_accessor :response,:conn
         def initialize(order,url)
             self.conn = Faraday.new(:url => url)
-            self.response = conn.get ''     
+            self.response = conn.post '', { :from => order.from }
+
         end
 
         def get_response

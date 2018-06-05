@@ -7,7 +7,7 @@ class UserMailer < ApplicationMailer
   #
   def registeration_confirmation(user)
     @user=user
-    @url="https://minamon.herokuapp.com/auth/login"
+    @url="https://driveo.herokuapp.com/api/v1/authentication/signin"
     mail to: @user.email, subject: "Driveo Registeration" 
   end
 
@@ -20,8 +20,7 @@ class UserMailer < ApplicationMailer
   def forgot_password(user,reset_token)
     @user=user
     @reset_token=reset_token
-    # @url="https://minamon.herokuapp.com/reset_password/#{@reset_token}"
-    @url="http://localhost:3000/reset_password/?hash=#{@reset_token}"
+    @url="driveo.herokuapp.com/api/v1/authentication/resetpassword?hash=#{@reset_token}"
     mail to: @user.email, subject: "Driveo Reset Password"
   end
 end
