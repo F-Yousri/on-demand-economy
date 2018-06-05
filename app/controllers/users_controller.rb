@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       user = User.find_by(id: @current_user.id)
       user.verified = true
       user.save
-      response = { message: Message.succes, user: user }
+      response = { message: Message.success, user: user }
       json_response(response)
     elsif
       response = { message: Message.incorrect_varification_codes}
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     @user = User.find(@reset_token[:user_id])
     @user.password = params[:password]
     @message = if @user.save
-                  Message.succes
+                  Message.success
                else
                   Message.error_wihle_changing_password
                 end
