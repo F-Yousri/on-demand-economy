@@ -58,8 +58,4 @@ class Message
   def self.error_wihle_changing_password
     'error while changing password'
   end
-
-  def self.un_verified_user
-    "You Aren't Verified Yet"
-  end
 end
