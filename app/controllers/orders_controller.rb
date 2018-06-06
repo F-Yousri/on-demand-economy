@@ -7,8 +7,11 @@ class OrdersController < ApplicationController
         order = Order.create!(order_params)
         order.created_by=current_user.id
         order.save
-        # call_provider order
-        render params[:to]
+        call_provider order
+    end
+    def show 
+        orders=Order.where(created_by: current_user.id).order(time: :desc)
+        render json: orders
     end
 
     def set_order
