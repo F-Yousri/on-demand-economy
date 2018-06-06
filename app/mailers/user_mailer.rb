@@ -20,7 +20,7 @@ class UserMailer < ApplicationMailer
   def forgot_password(user,reset_token)
     @user=user
     @reset_token=reset_token
-    @url="driveo.herokuapp.com/api/v1/authentication/resetpassword?hash=#{@reset_token}"
+    @url="Driveo://driveo.herokuapp.com/api/v1/authentication/resetpassword?hash=#{@reset_token}"
     mail to: @user.email, subject: "Driveo Reset Password"
   end
 end
