@@ -67,11 +67,12 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
-    logger.formatter = config.log_formatter
-    config.logger = ActiveSupport::TaggedLogging.new(logger)
-  end
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+if ENV["RAILS_LOG_TO_STDOUT"].present?
+  logger           = ActiveSupport::Logger.new(STDOUT)
+  logger.formatter = config.log_formatter
+  config.logger = ActiveSupport::TaggedLogging.new(logger)
+end
 
   # config gmail credentials
   config.action_mailer.perform_deliveries = true
@@ -87,6 +88,7 @@ Rails.application.configure do
     authentication: 'plain',
     enable_starttls_auto: true
   }
+  config.action_mailer.default_url_options = { :host => 'driveo.herokuapp.com' }
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
