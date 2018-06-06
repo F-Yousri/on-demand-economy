@@ -9,6 +9,10 @@ class OrdersController < ApplicationController
         order.save
         call_provider order
     end
+    def show 
+        orders=Order.where(created_by: current_user.id).order(time: :desc)
+        render json: orders
+    end
 
     def set_order
         @order = Order.find(params[:id])
