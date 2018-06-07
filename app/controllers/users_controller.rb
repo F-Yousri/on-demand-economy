@@ -12,40 +12,40 @@ class UsersController < ApplicationController
     user = User.new(user_params)
     user.user_pin = verificationCode
     if user.save
-    # client = Twilio::REST::Client.new('sid', 'token')
-    #     client.api.account.messages.create(
-    #       from: 'sender number',
-    #       to: '+2'+user.phone,
-    #       body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
-    #     )
+      UserMailer.registeration_confirmation(user)
+      # client = Twilio::REST::Client.new('sid', 'token')
+      #   client.api.account.messages.create(
+      #     from: 'sender number',
+      #     to: '+2'+user.phone,
+      #     body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
+      #     )
     auth_token = AuthenticateUser.new(user.email, user.password).call
-    response = { message: Message.account_created, auth_token: auth_token, user: user }
+    response = { message: Message.account_not_verified, auth_token: auth_token, user: user }
     end
     json_response(response, :created)
   end
 
-  def test
-    json_response('test_function')
-  end
-
   def verify
+    response ={}
     if params[:verification_pin].to_i == @current_user.user_pin
       user = User.find_by(id: @current_user.id)
       user.verified = true
       user.save
-      json_response(user)
+      response = { message: Message.success}
+      json_response(response)
     elsif
-      json_response('incorrect varification code')
+      response = { message: Message.incorrect_varification_codes}
+      json_response(response)
     end
   end
 
 
   def forgot_password
     @user = User.find_by_email(params[:email])
-    reset_token=JsonWebToken.encode(user_id: @user.id)
+    reset_token=JsonWebToken.encode_reset_password(user_id: @user.id)
     UserMailer.forgot_password(@user, reset_token).deliver_now
-    @respone = { message: Message.forgot_password_request, reset_token: reset_token }
-    json_response @respone
+    respone = { message: Message.forgot_password_request, reset_token: reset_token }
+    json_response(respone)
   end
 
   def reset_password
@@ -53,11 +53,11 @@ class UsersController < ApplicationController
     @user = User.find(@reset_token[:user_id])
     @user.password = params[:password]
     @message = if @user.save
-                 'Password Succesffuly Changed'
+                  Message.success
                else
-                 'Error While Changing Password'
+                  Message.error_wihle_changing_password
                 end
-    json_response(user: @user, message: @message)
+    json_response(message: @message)
   end
   def check_duplication
     if User.find_by_email(user_params[:email])

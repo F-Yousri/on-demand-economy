@@ -1,4 +1,5 @@
 class ProvidersController < ApplicationController
+  before_action :is_verified
   
     def create
         provider = Provider.create!(provider_params)   
@@ -6,7 +7,7 @@ class ProvidersController < ApplicationController
     
     def show
        providers = Provider.select(:id, :name, :image)
-       json_response({providers: providers })
+       json_response({message:Message.success, providers: providers })
     end
 
     private
