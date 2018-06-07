@@ -7,6 +7,8 @@ class OrdersController < ApplicationController
         order = Order.create!(order_params)
         order.created_by=current_user.id
         order.save
+        # json_response(order)
+
         call_provider order
     end
 
@@ -19,6 +21,7 @@ class OrdersController < ApplicationController
     end
     private
     def call_provider(order)
+
         @provider=Provider.find(order.provider_id)
         provider_url=@provider.url
         response = Data_provider::Data.new(order,provider_url)

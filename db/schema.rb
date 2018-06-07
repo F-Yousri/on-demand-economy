@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180602105516) do
+ActiveRecord::Schema.define(version: 20180605130521) do
 
-  create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -30,16 +30,16 @@ ActiveRecord::Schema.define(version: 20180602105516) do
   end
 
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.json     "images"
+    t.text     "images",            limit: 4294967295
     t.integer  "created_by"
     t.string   "from"
     t.string   "to"
     t.integer  "provider_id"
     t.integer  "provider_order_id"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
     t.string   "payment_method"
-    t.string   "status",            default: "pending"
+    t.string   "status",                               default: "pending"
     t.time     "time"
     t.string   "title"
   end
