@@ -12,12 +12,13 @@ class UsersController < ApplicationController
     user = User.new(user_params)
     user.user_pin = verificationCode
     if user.save
-    # client = Twilio::REST::Client.new('sid', 'token')
-    #     client.api.account.messages.create(
-    #       from: 'sender number',
-    #       to: '+2'+user.phone,
-    #       body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
-    #     )
+      UserMailer.registeration_confirmation(user)
+      # client = Twilio::REST::Client.new('sid', 'token')
+      #   client.api.account.messages.create(
+      #     from: 'sender number',
+      #     to: '+2'+user.phone,
+      #     body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
+      #     )
     auth_token = AuthenticateUser.new(user.email, user.password).call
     response = { message: Message.account_not_verified, auth_token: auth_token, user: user }
     end
@@ -41,7 +42,7 @@ class UsersController < ApplicationController
 
   def forgot_password
     @user = User.find_by_email(params[:email])
-    reset_token=JsonWebToken.encode(user_id: @user.id)
+    reset_token=JsonWebToken.encode_reset_password(user_id: @user.id)
     UserMailer.forgot_password(@user, reset_token).deliver_now
     respone = { message: Message.forgot_password_request }
     json_response(respone)
