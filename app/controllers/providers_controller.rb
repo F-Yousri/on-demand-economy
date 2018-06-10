@@ -7,6 +7,7 @@ class ProvidersController < ApplicationController
     
     def show
        providers = Provider.select(:id, :name, :image)
+       
        json_response({message:Message.success, providers: providers })
     end
 

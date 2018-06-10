@@ -9,9 +9,14 @@ class OrdersController < ApplicationController
         order.save
         call_provider order
     end
-    def show 
-        orders=Order.where(created_by: current_user.id).order(time: :desc)
-        render json: orders
+    def show
+        
+        pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc)
+        active_orders=Order.where(created_by: current_user.id,status: "active").order(time: :desc)
+        upcomig_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc)
+        response={:pending=> pending_orders,:active=> active_orders ,:upcoming=> upcomig_orders}
+        json_response({ message: Message.success , data: response}) 
+        # render json: pending_orders
     end
 
     def set_order
