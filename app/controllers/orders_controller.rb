@@ -7,11 +7,18 @@ class OrdersController < ApplicationController
         order = Order.create!(order_params)
         order.created_by=current_user.id
         order.save
+        # json_response(order)
+
         call_provider order
     end
-    def show 
-        orders=Order.where(created_by: current_user.id).order(time: :desc)
-        render json: orders
+    def show
+        
+        pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc)
+        active_orders=Order.where(created_by: current_user.id,status: "active").order(time: :desc)
+        upcomig_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc)
+        response={:pending=> pending_orders,:active=> active_orders ,:upcoming=> upcomig_orders}
+        json_response({ message: Message.success , data: response}) 
+        # render json: pending_orders
     end
 
     def set_order
@@ -19,10 +26,11 @@ class OrdersController < ApplicationController
     end
     
     def order_params
-        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:images)
+        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:images,:weight)
     end
     private
     def call_provider(order)
+
         @provider=Provider.find(order.provider_id)
         provider_url=@provider.url
         response = Data_provider::Data.new(order,provider_url)

@@ -7,7 +7,6 @@ class UserMailer < ApplicationMailer
   #
   def registeration_confirmation(user)
     @user=user
-    @url="https://driveo.herokuapp.com/api/v1/authentication/signin"
     mail to: @user.email, subject: "Driveo Registeration" 
   end
 

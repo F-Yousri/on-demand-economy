@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180606092438) do
+ActiveRecord::Schema.define(version: 20180607132132) do
 
-  create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -29,21 +29,39 @@ ActiveRecord::Schema.define(version: 20180606092438) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "models", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_models_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_models_on_reset_password_token", unique: true, using: :btree
+  end
+
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.json     "images"
+    t.text     "images",            limit: 4294967295
     t.integer  "created_by"
     t.integer  "provider_id"
     t.integer  "provider_order_id"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
     t.string   "payment_method"
-    t.string   "status",                       default: "pending"
+    t.string   "status",                               default: "pending"
     t.time     "time"
     t.string   "title"
     t.float    "src_latitude",      limit: 24
     t.float    "src_longitude",     limit: 24
     t.float    "dest_latitude",     limit: 24
     t.float    "dest_longitude",    limit: 24
+    t.float    "weight",            limit: 24
   end
 
   create_table "providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

@@ -13,7 +13,8 @@ module Data_provider
                 :payment_method=>order.payment_method,
                 :time=>order.time,
                 :title=>order.title,
-                :images=>order.images }
+                :images=>order.images,
+                :weight=>order.weight }
 
         end
 
