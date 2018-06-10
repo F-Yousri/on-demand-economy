@@ -7,6 +7,8 @@ class OrdersController < ApplicationController
         order = Order.create!(order_params)
         order.created_by=current_user.id
         order.save
+        # json_response(order)
+
         call_provider order
     end
     def show
@@ -24,10 +26,11 @@ class OrdersController < ApplicationController
     end
     
     def order_params
-        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:images)
+        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:images,:weight)
     end
     private
     def call_provider(order)
+
         @provider=Provider.find(order.provider_id)
         provider_url=@provider.url
         response = Data_provider::Data.new(order,provider_url)
