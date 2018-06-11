@@ -34,11 +34,16 @@ class UsersController < ApplicationController
       response = { message: Message.success}
       json_response(response)
     elsif
-      response = { message: Message.incorrect_varification_codes}
+      response = { message: Message.incorrect_varification_code}
       json_response(response)
     end
   end
 
+  def update
+    user=User.update(current_user.id, email: params[:email], phone: params[:phone])
+    response = { message: Message.success}
+    json_response(response)
+  end
 
   def forgot_password
     @user = User.find_by_email(params[:email])
