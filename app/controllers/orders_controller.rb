@@ -17,8 +17,8 @@ class OrdersController < ApplicationController
         upcomig_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc)
         history_orders=Order.where(created_by: current_user.id,status: "history").order(time: :desc).page(params[:page_number])
         history_pages=history_orders.total_pages
-        response={:history_pages=> history_pages,:history=> history_orders,:active=> active_orders ,:upcoming=> upcomig_orders}
-        json_response({ message: Message.success , data: response})
+        response={:history=> history_orders,:active=> active_orders ,:upcoming=> upcomig_orders}
+        json_response({ message: Message.success ,history_pages: history_pages, data: response})
     end
 
     def set_order
