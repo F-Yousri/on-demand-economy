@@ -260,6 +260,7 @@ DEPENDENCIES
   faraday (~> 0.15.2)
   json (~> 1.8, >= 1.8.3)
   jwt
+  kaminari
   listen (~> 3.0.5)
   mysql2 (~> 0.5.1)
   pg (~> 0.18.4)
