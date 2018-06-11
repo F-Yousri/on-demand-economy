@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   post '/api/v1/authentication/forgotpassword', to: 'users#forgot_password'
   post '/api/v1/authentication/resetpassword', to: 'users#reset_password'
   get '/api/v1/providers', to: "providers#show"
+  get '/api/v1/payments', to: "payments#show"
+  post '/api/v1/payments' , to: 'payments#create'
 end
