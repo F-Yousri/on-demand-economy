@@ -13,12 +13,12 @@ class OrdersController < ApplicationController
     end
     def show
         pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc)
-        active_orders=Order.where(created_by: current_user.id,status: "active").order(time: :desc)
-        upcomig_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc)
+        active_orders=Order.where(created_by: current_user.id,status: "active").order(time: :desc).page(params[:page_number])
+        upcomig_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc).page(params[:page_number])
         history_orders=Order.where(created_by: current_user.id,status: "history").order(time: :desc).page(params[:page_number])
         history_pages=history_orders.total_pages
-        response={:history=> history_orders,:active=> active_orders ,:upcoming=> upcomig_orders}
-        json_response({ message: Message.success ,history_pages: history_pages, data: response})
+        response={message: Message.success ,history_pages: history_pages, :history=> history_orders,:active=> active_orders ,:upcoming=> upcomig_orders}
+        json_response(response)
     end
 
     def set_order
