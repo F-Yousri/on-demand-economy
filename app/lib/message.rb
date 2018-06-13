@@ -51,11 +51,11 @@ class Message
     'success'
   end
 
-  def self.incorrect_varification_code
+  def self.incorrect_verification_code
   'incorrect verification code'
   end
   
-  def self.error_wihle_changing_password
+  def self.error_while_changing_password
     'error while changing password'
   end
 end

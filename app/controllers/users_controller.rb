@@ -34,7 +34,7 @@ class UsersController < ApplicationController
       response = { message: Message.success}
       json_response(response)
     elsif
-      response = { message: Message.incorrect_varification_code}
+      response = { message: Message.incorrect_verification_code}
       json_response(response)
     end
   end
@@ -60,10 +60,24 @@ class UsersController < ApplicationController
     @message = if @user.save
                   Message.success
                else
-                  Message.error_wihle_changing_password
+                  Message.error_while_changing_password
                 end
     json_response(message: @message)
   end
+
+  def change_password
+    user=User.find(current_user.id)
+   if BCrypt::Password.new(user.password_digest)==params[:password]
+    user.password=params[:new_password]
+    user.save
+    respone = { message: Message.success}
+    else
+      respone={message: Message.error_while_changing_password}
+    end
+    json_response(respone)
+  end
+
+
   def check_duplication
     if User.find_by_email(user_params[:email])
       json_response({ message: Message.email_already_exists})
@@ -79,9 +93,8 @@ class UsersController < ApplicationController
       :name,
       :email,
       :password,
-      :password_confirmation,
+      :new_password,
       :phone,
-      :verified,
       :verification_pin
     )
   end
