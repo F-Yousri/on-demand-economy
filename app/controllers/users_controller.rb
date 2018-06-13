@@ -66,7 +66,7 @@ class UsersController < ApplicationController
   end
 
   def reset_password_mob
-    @reset_token = JsonWebToken.decode(params[:hash])
+    @reset_token = params[:hash]
     @mobile_reset_link="https://driveo.herokuapp.com/api/v1/authentication/resetpassword?hash=#{@reset_token}"
     redirect_to @mobile_reset_link
   end
