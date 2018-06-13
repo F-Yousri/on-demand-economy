@@ -1,5 +1,3 @@
-# require 'json'
-
 class OrdersController < ApplicationController
     # before_action :set_order, only: [:show, :update, :destroy]
     before_action :authorize_request ,:is_verified
@@ -11,6 +9,11 @@ class OrdersController < ApplicationController
 
         call_provider order
     end
+
+    def image_path (image)
+        self.url='https://driveo.herokuapp.com/'+image
+    end
+
     def show
         pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc)
         active_orders=Order.where(created_by: current_user.id,status: "active").order(time: :desc)

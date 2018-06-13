@@ -92,6 +92,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def about_us
+    response={message: Message.about_us}
+    json_response(response)
+  end
+
   private
 
   def user_params
