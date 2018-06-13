@@ -20,7 +20,7 @@ class UsersController < ApplicationController
       #     body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
       #     )
     auth_token = AuthenticateUser.new(user.email, user.password).call
-    response = { message: Message.account_not_verified, auth_token: auth_token, user: user }
+    response = { message: Message.success, auth_token: auth_token, user: user }
     end
     json_response(response, :created)
   end
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     @user = User.find_by_email(params[:email])
     reset_token=JsonWebToken.encode_reset_password(user_id: @user.id)
     UserMailer.forgot_password(@user, reset_token).deliver_now
-    respone = { message: Message.forgot_password_request }
+    respone = { message: Message.forgot_password_request}
     json_response(respone)
   end
 
