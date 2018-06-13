@@ -65,6 +65,12 @@ class UsersController < ApplicationController
     json_response(message: @message)
   end
 
+  def reset_password_mob
+    @reset_token = JsonWebToken.decode(params[:hash])
+    @mobile_reset_link="https://driveo.herokuapp.com/api/v1/authentication/resetpassword?hash=#{@reset_token}"
+    redirect_to @mobile_reset_link
+  end
+
   def change_password
     user=User.find(current_user.id)
    if BCrypt::Password.new(user.password_digest)==params[:password]
