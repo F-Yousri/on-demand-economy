@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     verificationCode = rand(9999)
     user = User.new(user_params)
     user.user_pin = verificationCode
+
     if user.save
       UserMailer.registeration_confirmation(user)
       # client = Twilio::REST::Client.new('sid', 'token')
