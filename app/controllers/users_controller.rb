@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authorize_request, except: %i[create forgot_password reset_password]
-  before_action :is_verified, except: %i[verify create forgot_password reset_password]
+  before_action :authorize_request, except: %i[create forgot_password reset_password reset_password_mob]
+  before_action :is_verified, except: %i[verify create forgot_password reset_password reset_password_mob]
   before_action :check_duplication , only: :create
   # POST /signup
   # return authenticated token upon signup
@@ -67,8 +67,8 @@ class UsersController < ApplicationController
   end
 
   def reset_password_mob
-    @reset_token = JsonWebToken.decode(params[:hash])
-    @mobile_reset_link="https://driveo.herokuapp.com/api/v1/authentication/resetpassword?hash=#{@reset_token}"
+    @reset_token = params[:hash]
+    @mobile_reset_link="Driveo://driveo.herokuapp.com/api/v1/authentication/resetpassword?hash=#{@reset_token}"
     redirect_to @mobile_reset_link
   end
 

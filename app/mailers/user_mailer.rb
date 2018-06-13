@@ -20,7 +20,7 @@ class UserMailer < ApplicationMailer
     @user=user
     @reset_token=reset_token
     @mob_url="Driveo://driveo.herokuapp.com/api/v1/authentication/resetpassword?hash=#{@reset_token}"
-    @url="https://driveo.herokuapp.com/api/v1/authentication/resetpassword?hash=#{@reset_token}"
+    @url="https://driveo.herokuapp.com/api/v1/authentication/mobile/resetpassword?hash=#{@reset_token}"
 
     mail to: @user.email, subject: "Driveo Reset Password"
   end
