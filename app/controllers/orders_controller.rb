@@ -12,7 +12,11 @@ class OrdersController < ApplicationController
         call_provider order
     end
     def show
-        pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc)
+        pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc).each do |order|
+            order.images.each do |image|
+                image.url
+            end
+        end
         active_orders=Order.where(created_by: current_user.id,status: "active").order(time: :desc)
         upcomig_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc).page(params[:page_number])
         history_orders=Order.where(created_by: current_user.id,status: "history").order(time: :desc).page(params[:page_number])
@@ -26,7 +30,7 @@ class OrdersController < ApplicationController
     end
     
     def order_params
-        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:images,:weight)
+        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:weight,images: [])
     end
     private
     def call_provider(order)
