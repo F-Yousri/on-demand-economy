@@ -82,7 +82,8 @@ class UsersController < ApplicationController
       :password_confirmation,
       :phone,
       :verified,
-      :verification_pin
+      :verification_pin,
+      :avatar
     )
   end
 end
