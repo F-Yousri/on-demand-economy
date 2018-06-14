@@ -44,11 +44,8 @@ ActiveRecord::Schema.define(version: 20180614092350) do
     t.float    "dest_latitude",     limit: 24
     t.float    "dest_longitude",    limit: 24
     t.float    "weight",            limit: 24
-<<<<<<< HEAD
-    t.json     "images"
-=======
     t.string   "description"
->>>>>>> 05da65fc45c2f12639082d6c70b8c05de064e61f
+    t.json     "images"
   end
 
   create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
