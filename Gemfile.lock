@@ -50,6 +50,9 @@ GEM
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
+    carrierwave-base64 (2.7.0)
+      carrierwave (>= 0.8.0)
+      mime-types (~> 3.0)
     coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -253,6 +256,7 @@ DEPENDENCIES
   activemerchant
   bcrypt (~> 3.1.7)
   carrierwave (~> 1.0)
+  carrierwave-base64
   database_cleaner
   devise
   factory_girl_rails (~> 4.0)

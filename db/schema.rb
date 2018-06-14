@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180611212145) do
+ActiveRecord::Schema.define(version: 20180613232909) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "email",                  default: "", null: false
@@ -29,23 +29,6 @@ ActiveRecord::Schema.define(version: 20180611212145) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
-  create_table "models", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.index ["email"], name: "index_models_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_models_on_reset_password_token", unique: true, using: :btree
-  end
-
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text     "images",            limit: 4294967295
     t.integer  "created_by"
@@ -62,13 +45,7 @@ ActiveRecord::Schema.define(version: 20180611212145) do
     t.float    "dest_latitude",     limit: 24
     t.float    "dest_longitude",    limit: 24
     t.float    "weight",            limit: 24
-  end
-
-  create_table "payment_methods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "status"
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "description"
   end
 
   create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -97,6 +74,7 @@ ActiveRecord::Schema.define(version: 20180611212145) do
     t.integer  "user_pin"
     t.boolean  "verified",        default: false
     t.string   "phone"
+    t.string   "avatar"
   end
 
 end
