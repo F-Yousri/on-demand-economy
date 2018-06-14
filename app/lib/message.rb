@@ -58,4 +58,9 @@ class Message
   def self.error_while_changing_password
     'error while changing password'
   end
+
+  def self.about_us
+    'Driveo App
+    Description:'
+  end
 end

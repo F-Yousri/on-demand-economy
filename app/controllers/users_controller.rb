@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     verificationCode = rand(9999)
     user = User.new(user_params)
     user.user_pin = verificationCode
+
     if user.save
       UserMailer.registeration_confirmation(user)
       # client = Twilio::REST::Client.new('sid', 'token')
@@ -90,6 +91,11 @@ class UsersController < ApplicationController
     elsif User.find_by_phone(user_params[:phone])
       json_response({ message: Message.phone_already_exists})  
     end
+  end
+
+  def about_us
+    response={message: Message.about_us}
+    json_response(response)
   end
 
   private

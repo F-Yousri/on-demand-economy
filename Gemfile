@@ -32,6 +32,9 @@ gem 'twilio-ruby'
 gem 'activemerchant'
 gem 'json', '~> 1.8', '>= 1.8.3'
 gem 'faraday', '~> 0.15.2'
+gem "carrierwave-base64"
+
+
 group :development, :test do
 gem 'rspec-rails', '~> 3.5'
 gem 'pry-rails'

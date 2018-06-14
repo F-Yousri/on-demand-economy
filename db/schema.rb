@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20180614092350) do
 
-  create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -44,10 +44,14 @@ ActiveRecord::Schema.define(version: 20180614092350) do
     t.float    "dest_latitude",     limit: 24
     t.float    "dest_longitude",    limit: 24
     t.float    "weight",            limit: 24
+<<<<<<< HEAD
     t.json     "images"
+=======
+    t.string   "description"
+>>>>>>> 05da65fc45c2f12639082d6c70b8c05de064e61f
   end
 
-  create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
     t.string   "status"
     t.text     "image",      limit: 65535
@@ -73,6 +77,7 @@ ActiveRecord::Schema.define(version: 20180614092350) do
     t.integer  "user_pin"
     t.boolean  "verified",        default: false
     t.string   "phone"
+    t.string   "avatar"
   end
 
 end

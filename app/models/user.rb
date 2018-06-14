@@ -8,5 +8,6 @@ class User < ApplicationRecord
   validates_presence_of :password_digest, :phone, :email, presence: true
   validates :phone, uniqueness: { message: 'Phone Already Exists' }
   validates :email, uniqueness: { message: 'Email Already Exists' }
+  mount_base64_uploader :avatar, ImagesUploader
   
 end
