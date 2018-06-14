@@ -16,7 +16,11 @@ class OrdersController < ApplicationController
     end
 
     def show
-        pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc)
+        pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc).each do |order|
+            order.images.each do |image|
+                image.url
+            end
+        end
         active_orders=Order.where(created_by: current_user.id,status: "active").order(time: :desc)
         upcomig_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc).page(params[:page_number])
         history_orders=Order.where(created_by: current_user.id,status: "history").order(time: :desc).page(params[:page_number])
