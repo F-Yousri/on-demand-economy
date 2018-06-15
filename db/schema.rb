@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180615121838) do
+ActiveRecord::Schema.define(version: 20180615213329) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "email",                  default: "", null: false
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20180615121838) do
     t.datetime "updated_at",                                       null: false
     t.string   "payment_method"
     t.string   "status",                       default: "pending"
-    t.time     "time"
+    t.datetime "time"
     t.string   "title"
     t.float    "src_latitude",      limit: 24
     t.float    "src_longitude",     limit: 24
