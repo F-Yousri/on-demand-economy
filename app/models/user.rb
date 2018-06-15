@@ -4,10 +4,11 @@ class User < ApplicationRecord
   # encrypt password
   has_secure_password
 
+ 
   # Validations
-  validates_presence_of :password_digest, :phone, :email, presence: true
-  validates :phone, uniqueness: { message: 'Phone Already Exists' }
-  validates :email, uniqueness: { message: 'Email Already Exists' }
+  validates_presence_of :password_digest, :phone, :email,:avatar
+  validates :phone, uniqueness: true
+  validates :email, uniqueness: true
   mount_base64_uploader :avatar, ImagesUploader
   
 end
