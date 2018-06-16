@@ -37,7 +37,6 @@ class UsersController < ApplicationController
       user.verified = true
       user.save
       response = { message: Message.success}
-      json_response(response)
     else
       response = { message: Message.incorrect_verification_code}
     end
