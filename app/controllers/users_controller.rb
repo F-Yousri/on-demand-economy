@@ -34,7 +34,7 @@ class UsersController < ApplicationController
       user.save
       response = { message: Message.success}
       json_response(response)
-    elsif
+    else
       response = { message: Message.incorrect_verification_code}
       json_response(response)
     end
@@ -77,11 +77,11 @@ class UsersController < ApplicationController
    if BCrypt::Password.new(user.password_digest)==params[:password]
     user.password=params[:new_password]
     user.save
-    respone = { message: Message.success}
+    response = { message: Message.success}
     else
-      respone={message: Message.error_while_changing_password}
+      response={message: Message.error_while_changing_password}
     end
-    json_response(respone)
+    json_response(response)
   end
 
 

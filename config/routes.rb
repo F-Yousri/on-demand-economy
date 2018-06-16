@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get '/api/v1/providers', to: "providers#show"
   get '/api/v1/payments', to: "payments#show"
   post '/api/v1/payments' , to: 'payments#create'
-  get '/api/v1/aboutus', to: "users#about_us"
+  get '/api/v1/about', to: "users#about_us"
 
   # https://driveo.herokuapp.com/api/v1/authentication/resetpassword?hash=#{@reset_token}
 end
