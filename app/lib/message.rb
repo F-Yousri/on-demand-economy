@@ -63,8 +63,13 @@ class Message
     'error while update your profile'
   end
 
+  def self.carrier_not_ready
+
+    'carrier not ready yet'
+  end
+
   def self.about_us
     'Driveo App
-    a7la mesa men el backend '
+    app desription here '
   end
 end
