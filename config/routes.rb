@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   put '/api/v1/authentication/update', to: 'users#update'
   get '/api/v1/authentication/show', to: 'users#show'
   patch '/api/v1/authentication/verify' , to: 'users#verify'
+  post '/api/v1/authentication/resendverification' , to: 'users#resend_verification'
   post '/api/v1/authentication/forgotpassword', to: 'users#forgot_password'
   get '/api/v1/authentication/mobile/resetpassword', to:'users#reset_password_mob'
   patch '/api/v1/authentication/resetpassword', to: 'users#reset_password'

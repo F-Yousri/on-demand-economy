@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :authorize_request, except: %i[create forgot_password reset_password reset_password_mob about_us]
-  before_action :is_verified, except: %i[verify create forgot_password reset_password reset_password_mob about_us]
+  before_action :is_verified, except: %i[verify create forgot_password reset_password reset_password_mob about_us resend_verification]
   before_action :check_duplication , only: :update
   # POST /signup
   # return authenticated token upon signup
@@ -41,6 +41,22 @@ class UsersController < ApplicationController
       response = { message: Message.incorrect_verification_code}
     end
     json_response(response)
+  end
+
+  def resend_verification 
+    user = User.find_by(id: current_user.id)
+    verificationCode = rand(9999)
+    user.user_pin = verificationCode
+    if user.save
+      client = Twilio::REST::Client.new(Rails.application.secrets.sms_sid, Rails.application.secrets.sms_token)
+        client.api.account.messages.create(
+          from: Rails.application.secrets.sms_sender,
+          to: '+2'+user.phone,
+          body: "Thanks #{user.name} for signing up. Your New Verification Code is #{verificationCode} . \n "
+          )
+      response={message: Message.success}
+    end
+      json_response(response)
   end
 
   def update
@@ -100,7 +116,7 @@ class UsersController < ApplicationController
   end
 
   def about_us
-    response={message: Message.about_us}
+    response={message: Message.success,about_us: Message.about_us}
     json_response(response)
   end
 
