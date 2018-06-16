@@ -70,6 +70,6 @@ class Message
 
   def self.about_us
     'Driveo App
-    Description:'
+    a7la mesa men el backend '
   end
 end

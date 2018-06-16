@@ -16,28 +16,15 @@ class OrdersController < ApplicationController
         end
     end
 
-    def image_path (orderImage)
-         orderImage.each do |order|
-             self.order['images']['url']='https://driveo.herokuapp.com/'+order['images']['url']
-        end
-    end
-
     def show
-        pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc).each do |order|
-            order.images.each do |image|
-                image.url
-            end
-        end
+        pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc)
         active_orders=Order.where(created_by: current_user.id,status: "active").order(time: :desc)
         upcomig_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc).page(params[:page_number])
         history_orders=Order.where(created_by: current_user.id,status: "history").order(time: :desc).page(params[:page_number])
         history_pages=history_orders.total_pages
         response={message: Message.success ,history_pages: history_pages, history: history_orders,active: active_orders ,upcoming: upcomig_orders}
         
-            # history_orders.each do |order| 
-            #     @response= order['images']
-            # end
-        json_response(@response)
+        json_response(response)
 
     end
 
