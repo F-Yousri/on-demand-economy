@@ -21,6 +21,11 @@ class ImagesUploader < CarrierWave::Uploader::Base
   #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
 
+  # override default imageuploader url 
+  def url
+    "#{Rails.application.secrets.base_url}/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{model['images']}"
+  end
+
   # Process files as they are uploaded:
   # process scale: [200, 300]
   #
