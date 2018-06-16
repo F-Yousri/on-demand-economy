@@ -1,5 +1,7 @@
-class Change < ActiveRecord::Migration[5.0]
+class ChangeOrderTime < ActiveRecord::Migration[5.0]
   def change
-    change_column :orders, :time, :datetime
+    remove_column :orders, :time
+
+    add_column :orders ,:time ,:timestamp
   end
 end
