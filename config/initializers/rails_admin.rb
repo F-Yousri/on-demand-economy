@@ -29,9 +29,11 @@ RailsAdmin.config do |config|
     config.model 'Provider' do
       edit do
         field :url, :string
-       field :name, :string
+        field :name, :string
         field :rate, :integer
         field :image, :carrierwave
+        field :login_url, :string
+        field :secret_key, :string
       end
     end
 end
