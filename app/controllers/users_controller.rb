@@ -48,13 +48,13 @@ class UsersController < ApplicationController
     verificationCode = rand(9999)
     user.user_pin = verificationCode
     if user.save
-      client = Twilio::REST::Client.new(Rails.application.secrets.sms_sid, Rails.application.secrets.sms_token)
-        client.api.account.messages.create(
-          from: Rails.application.secrets.sms_sender,
-          to: '+2'+user.phone,
-          body: "Thanks #{user.name} for signing up. Your New Verification Code is #{verificationCode} . \n "
-          )
-      response={message: Message.success}
+      # client = Twilio::REST::Client.new(Rails.application.secrets.sms_sid, Rails.application.secrets.sms_token)
+      #   client.api.account.messages.create(
+      #     from: Rails.application.secrets.sms_sender,
+      #     to: '+2'+user.phone,
+      #     body: "Thanks #{user.name} for signing up. Your New Verification Code is #{verificationCode} . \n "
+      #     )
+      response={message: Message.success,user:user}
     end
       json_response(response)
   end
