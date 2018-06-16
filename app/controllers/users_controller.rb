@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authorize_request, except: %i[create forgot_password reset_password reset_password_mob]
-  before_action :is_verified, except: %i[verify create forgot_password reset_password reset_password_mob]
+  before_action :authorize_request, except: %i[create forgot_password reset_password reset_password_mob about_us]
+  before_action :is_verified, except: %i[verify create forgot_password reset_password reset_password_mob about_us]
   before_action :check_duplication , only: :update
   # POST /signup
   # return authenticated token upon signup
