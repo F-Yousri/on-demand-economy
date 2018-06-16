@@ -7,6 +7,10 @@ class UsersController < ApplicationController
   # POST /signup
   # return authenticated token upon signup
     
+  def show 
+    user=current_user
+    json_response(user)
+  end
   def create
     verificationCode = rand(9999)
     user = User.create!(user_params)

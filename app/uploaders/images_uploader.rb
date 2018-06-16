@@ -23,7 +23,16 @@ class ImagesUploader < CarrierWave::Uploader::Base
 
   # override default imageuploader url 
   def url
-    "#{Rails.application.secrets.base_url}/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{model['images']}"
+     if model.class.to_s.underscore=='order'
+       model_image='images'
+     elsif model.class.to_s.underscore=='user'
+      model_image='avatar'
+    elsif model.class.to_s.underscore=='provider'
+      model_image='image'
+    elsif model.class.to_s.underscore=='payment'
+      model_image='image'
+     end
+    "#{Rails.application.secrets.base_url}/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{model[model_image]}"
   end
 
   # Process files as they are uploaded:
