@@ -24,7 +24,7 @@ class OrdersController < ApplicationController
         history_pages=history_orders.total_pages
         response={message: Message.success ,history_pages: history_pages, history: history_orders,active: active_orders ,upcoming: upcomig_orders}
         
-        json_response(pending_orders)
+        json_response(response)
 
     end
 
