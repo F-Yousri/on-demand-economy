@@ -1,48 +1,56 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authorize_request, except: %i[create forgot_password reset_password reset_password_mob]
-  before_action :is_verified, except: %i[verify create forgot_password reset_password reset_password_mob]
-  before_action :check_duplication , only: :create
+  before_action :authorize_request, except: %i[create forgot_password reset_password reset_password_mob about_us]
+  before_action :is_verified, except: %i[verify create forgot_password reset_password reset_password_mob about_us]
+  before_action :check_duplication , only: :update
   # POST /signup
   # return authenticated token upon signup
     
+  def show 
+    user=current_user
+    json_response(user)
+  end
   def create
     verificationCode = rand(9999)
-    user = User.new(user_params)
+    user = User.create!(user_params)
     user.user_pin = verificationCode
 
-    if user.save
-      UserMailer.registeration_confirmation(user)
-      # client = Twilio::REST::Client.new('sid', 'token')
+     if user.save
+      UserMailer.registeration_confirmation(user).deliver_now
+      # client = Twilio::REST::Client.new(Rails.application.secrets.sms_sid, Rails.application.secrets.sms_token)
       #   client.api.account.messages.create(
-      #     from: 'sender number',
+      #     from: Rails.application.secrets.sms_sender,
       #     to: '+2'+user.phone,
       #     body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
       #     )
-    auth_token = AuthenticateUser.new(user.email, user.password).call
-    response = { message: Message.success, auth_token: auth_token, user: user }
-    end
-    json_response(response, :created)
+      auth_token = AuthenticateUser.new(user.email, user.password).call
+      response = { message: Message.success, auth_token: auth_token, user: user }
+     end
+    json_response(response)
   end
 
   def verify
     response ={}
-    if params[:verification_pin].to_i == @current_user.user_pin
-      user = User.find_by(id: @current_user.id)
+    if params[:verification_pin].to_i == current_user.user_pin
+      user = User.find_by(id: current_user.id)
       user.verified = true
       user.save
       response = { message: Message.success}
       json_response(response)
     else
       response = { message: Message.incorrect_verification_code}
-      json_response(response)
     end
+    json_response(response)
   end
 
   def update
-    user=User.update(current_user.id, email: params[:email], phone: params[:phone])
-    response = { message: Message.success}
+    user=current_user
+    if user.update(user_params)
+    response = { message: Message.success,user: user}
+    else
+      response = { message:Message.error_while_updating_profile}
+    end
     json_response(response)
   end
 
@@ -84,7 +92,6 @@ class UsersController < ApplicationController
     json_response(response)
   end
 
-
   def check_duplication
     if User.find_by_email(user_params[:email])
       json_response({ message: Message.email_already_exists})
@@ -101,13 +108,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(
-      :name,
-      :email,
-      :password,
-      :new_password,
-      :phone,
-      :verification_pin
-    )
+    params.permit(:name,:email,:password,:new_password,:phone,:verified,:verification_pin,:avatar)
   end
 end

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post '/api/v1/authentication/signin', to: 'authentication#authenticate'
   post '/api/v1/authentication/signup', to: 'users#create'
   put '/api/v1/authentication/update', to: 'users#update'
+  get '/api/v1/authentication/show', to: 'users#show'
   patch '/api/v1/authentication/verify' , to: 'users#verify'
   post '/api/v1/authentication/forgotpassword', to: 'users#forgot_password'
   get '/api/v1/authentication/mobile/resetpassword', to:'users#reset_password_mob'

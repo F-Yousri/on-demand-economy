@@ -14,7 +14,9 @@ module Data_provider
                 :time=>order.time,
                 :title=>order.title,
                 :images=>order.images,
-                :weight=>order.weight }
+                :weight=>order.weight ,
+                :description=>order.description,
+            }
 
         end
 

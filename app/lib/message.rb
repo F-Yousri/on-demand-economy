@@ -59,6 +59,10 @@ class Message
     'error while changing password'
   end
 
+  def self.error_while_updating_profile
+    'error while update your profile'
+  end
+
   def self.about_us
     'Driveo App
     Description:'
