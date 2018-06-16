@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   devise_for :admins
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  get '/api/v1/orders/:page_number' , to: 'orders#show'
+  get '/api/v1/orders/showhistory/:page_number' , to: 'orders#show_history'
+  get '/api/v1/orders/showupcoming/:page_number' , to: 'orders#show_upcoming'
   post '/api/v1/orders' , to: 'orders#create'
   post '/api/v1/authentication/signin', to: 'authentication#authenticate'
   post '/api/v1/authentication/signup', to: 'users#create'

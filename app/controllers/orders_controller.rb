@@ -16,14 +16,22 @@ class OrdersController < ApplicationController
         end
     end
 
-    def show
-        pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc)
+    def show_history
+        # pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc)
         active_orders=Order.where(created_by: current_user.id,status: "active").order(time: :desc)
-        upcomig_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc).page(params[:page_number])
         history_orders=Order.where(created_by: current_user.id,status: "history").order(time: :desc).page(params[:page_number])
-        history_pages=history_orders.total_pages
-        response={message: Message.success ,history_pages: history_pages, history: history_orders,active: active_orders ,upcoming: upcomig_orders}
+        total_history_pages=history_orders.total_pages
+        data={active: active_orders,history: history_orders}
+        response={message: Message.success ,total_pages: total_history_pages ,data: data}
         
+        json_response(response)
+    end
+
+    def show_upcoming
+        upcoming_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc).page(params[:page_number])
+        total_upcoming_pages=upcoming_orders.total_pages
+        data={upcoming: upcoming_orders}
+        response={message: Message.success,total_pages: total_upcoming_pages ,data: data}
         json_response(response)
 
     end
@@ -46,6 +54,6 @@ class OrdersController < ApplicationController
     # end
 
     def order_params
-        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:images,:weight,:description)
+        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:images,:weight,:description,:pickup_location,:dropoff_location)
     end
 end
