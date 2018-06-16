@@ -16,6 +16,8 @@ module Data_provider
                 :images=>order.images,
                 :weight=>order.weight ,
                 :description=>order.description,
+                :pickup_location=>order.pickup_location,
+                :dropoff_location=>order.dropoff_location,
             }
 
         end
