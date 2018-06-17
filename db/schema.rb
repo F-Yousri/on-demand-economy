@@ -46,9 +46,9 @@ ActiveRecord::Schema.define(version: 20180617144400) do
     t.float    "weight",            limit: 24
     t.string   "description"
     t.json     "images"
+    t.float    "cost",              limit: 24
     t.string   "pickup_location"
     t.string   "dropoff_location"
-    t.float    "cost",              limit: 24
     t.integer  "order_id"
   end
 
