@@ -9,7 +9,7 @@ module Callprovider
             order.status="active"
             order.cost=json_data['cost']
             order.save
-            json_response({ message: Message.success , data: JSON[data]}) 
+            json_response response= { message: Message.success , data: JSON[data]} 
         else
             order.status="cancelled"
             order.save
