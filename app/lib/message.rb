@@ -65,7 +65,7 @@ class Message
 
   def self.carrier_not_ready
 
-    'carrier not ready yet'
+    "carrier can't take your order" 
   end
 
   def self.about_us
