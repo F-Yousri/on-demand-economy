@@ -23,7 +23,6 @@ module Data_provider
             self.response =self.conn.post do |req|
                 req.url  provider.url
                 req.headers['Authorization'] = JSON[self.response_login.body]['auth_token']
-        
                  req.body ={
                     :src_latitude =>order.src_latitude,
                     :src_longitude=>order.src_longitude,
