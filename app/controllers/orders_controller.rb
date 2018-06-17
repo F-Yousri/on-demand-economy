@@ -17,6 +17,8 @@ class OrdersController < ApplicationController
 
         if (time_in_minute >= 60)
             OrderScheduleJob.set(wait: (time_in_minute-60).minute).perform_later(order)
+            order.status="upcoming"
+            order.save
             json_response({message: Message.success})
         else
             call_provider(order)
