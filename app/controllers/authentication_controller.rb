@@ -6,8 +6,10 @@ class AuthenticationController < ApplicationController
      
     auth_token =AuthenticateUser.new(auth_params[:email], auth_params[:password]).call
 
-    if User.find_by_email(auth_params[:email]).verified == true
-    response={ message: Message.success, auth_token: auth_token }
+    user=User.find_by_email(auth_params[:email])
+    if user.verified
+
+    response={ message: Message.success, auth_token: auth_token, user: {name: user.name, email: user.email, phone: user.phone, avatar: user.avatar} }
     else 
     response={message: Message.account_not_verified,auth_token: auth_token}
     end

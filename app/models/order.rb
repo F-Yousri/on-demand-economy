@@ -3,4 +3,9 @@ class Order < ApplicationRecord
     validates_presence_of :src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:title, :provider_id,:payment_method,:weight,:images
     mount_base64_uploader :images, ImagesUploader
 
+    def order_id
+        self.order_id = self.id
+
+    end
+
 end
