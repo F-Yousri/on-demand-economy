@@ -31,9 +31,19 @@ RailsAdmin.config do |config|
         field :url, :string
         field :name, :string
         field :rate, :integer
-        field :image, :carrierwave
+        field :image, :carrierwave,multiple: true
         field :login_url, :string
         field :secret_key, :string
+      end
+      
+    end
+    config.model 'Order' do
+      edit do
+      
+        field :images do
+          partial "my_awesome_partial"
+        end
+        
       end
     end
 end
