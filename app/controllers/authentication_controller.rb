@@ -9,7 +9,7 @@ class AuthenticationController < ApplicationController
     user=User.find_by_email(auth_params[:email])
     if user.verified
 
-    response={ message: Message.success, auth_token: auth_token, user: {name: user.name, email: user.email, avatar: user.avatar} }
+    response={ message: Message.success, auth_token: auth_token, user: {name: user.name, email: user.email, phone: user.phone, avatar: user.avatar} }
     else 
     response={message: Message.account_not_verified,auth_token: auth_token}
     end
