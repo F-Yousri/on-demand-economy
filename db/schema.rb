@@ -66,9 +66,9 @@ ActiveRecord::Schema.define(version: 20180617144400) do
     t.integer  "rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "image"
     t.string   "secret_key"
     t.string   "login_url"
+    t.string   "image"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

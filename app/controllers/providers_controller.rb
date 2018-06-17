@@ -13,9 +13,6 @@ class ProvidersController < ApplicationController
     private
 
     def provider_params
-      params.permit(
-        :name,
-        :url
-      )
+      params.permit(:name,:url,:rate,:login_url,:secret_key,:image)
     end
 end

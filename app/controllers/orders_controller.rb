@@ -1,13 +1,16 @@
 class OrdersController < ApplicationController
+    require 'json'
+
     # before_action :set_order, only: [:show, :update, :destroy]
     before_action :authorize_request ,:is_verified
     include Callprovider
+   
     def create
-        order = Order.create!(order_params)
+        img=[]
+        order = Order.new(order_params)
         order.created_by=current_user.id
-        order.save
+        order.save!
         time_in_minute =(order.time.to_i - order.created_at.to_i).to_i/60
-
         if (time_in_minute >= 60)
             OrderScheduleJob.set(wait: (time_in_minute-60).minute).perform_later(order)
             order.status="upcoming"
@@ -56,6 +59,6 @@ class OrdersController < ApplicationController
     # end
 
     def order_params
-        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:images,:weight,:description,:pickup_location,:dropoff_location)
+        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:weight,:description,:pickup_location,:dropoff_location,images: [])
     end
 end
