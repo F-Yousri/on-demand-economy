@@ -31,7 +31,7 @@ RailsAdmin.config do |config|
         field :url, :string
         field :name, :string
         field :rate, :integer
-        field :image, :carrierwave
+        field :image, :carrierwave , multipart: :true
         field :login_url, :string
         field :secret_key, :string
       end
