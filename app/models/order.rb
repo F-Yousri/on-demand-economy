@@ -6,7 +6,6 @@ class Order < ApplicationRecord
 
     def order_id
         self.order_id = self.id
-
     end
 
 end

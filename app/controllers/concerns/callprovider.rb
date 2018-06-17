@@ -14,6 +14,6 @@ module Callprovider
             order.status="cancelled"
             order.save
             json_response({message:Message.carrier_not_ready })
-        endrails
+        end
     end
   end
