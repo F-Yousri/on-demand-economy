@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180616155523) do
+ActiveRecord::Schema.define(version: 20180617133625) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "email",                  default: "", null: false
@@ -46,8 +46,12 @@ ActiveRecord::Schema.define(version: 20180616155523) do
     t.float    "weight",            limit: 24
     t.string   "description"
     t.json     "images"
+<<<<<<< HEAD
     t.string   "pickup_location"
     t.string   "dropoff_location"
+=======
+    t.float    "cost",              limit: 24
+>>>>>>> de89c9668a6afb71f4579ff8ab6ff75b30f1d832
   end
 
   create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
