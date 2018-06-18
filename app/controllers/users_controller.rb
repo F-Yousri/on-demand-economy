@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     json_response(user)
   end
   def create
-    verificationCode = rand(9999)
+    verificationCode = rand(1000..9999)
     user = User.create!(user_params)
     user.user_pin = verificationCode
 
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
 
   def resend_verification 
     user = User.find_by(id: current_user.id)
-    verificationCode = rand(9999)
+    verificationCode = rand(1000..9999)
     user.user_pin = verificationCode
     if user.save
       # client = Twilio::REST::Client.new(Rails.application.secrets.sms_sid, Rails.application.secrets.sms_token)
