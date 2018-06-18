@@ -9,11 +9,13 @@ class UsersController < ApplicationController
     
   def show 
     user=current_user
+    user={name: user.name,email: user.email ,phone: user.phone,avatar: user.avatar}
     json_response(user)
   end
   def create
     verificationCode = rand(1000..9999)
     user = User.create!(user_params)
+    user['email']=user.email.downcase
     user.user_pin = verificationCode
 
      if user.save
@@ -32,19 +34,26 @@ class UsersController < ApplicationController
 
   def verify
     response ={}
-    if params[:verification_pin].to_i == current_user.user_pin
-      user = User.find_by(id: current_user.id)
-      user.verified = true
-      user.save
-      response = { message: Message.success}
+    user = User.find_by(id: current_user.id)
+    if user.verified==false
+      if params[:verification_pin].to_i == user.user_pin
+      
+        user.verified = true
+        user.save
+        response = { message: Message.success}
+      else
+        response = { message: Message.incorrect_verification_code}
+      end
     else
-      response = { message: Message.incorrect_verification_code}
+      response={ message: Message.already_verified}
     end
+
     json_response(response)
   end
 
   def resend_verification 
     user = User.find_by(id: current_user.id)
+    if user.verified==false
     verificationCode = rand(1000..9999)
     user.user_pin = verificationCode
     if user.save
@@ -56,6 +65,9 @@ class UsersController < ApplicationController
       #     )
       response={message: Message.success,user:user}
     end
+  else
+    response={message: Message.already_verified}
+  end
       json_response(response)
   end
 

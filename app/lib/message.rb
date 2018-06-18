@@ -72,4 +72,9 @@ class Message
     'Driveo App
     app desription here '
   end
+
+  def self.already_verified
+
+    'you are already verified'
+  end
 end
