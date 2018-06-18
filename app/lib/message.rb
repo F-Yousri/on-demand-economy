@@ -77,4 +77,8 @@ class Message
 
     'you are already verified'
   end
+
+  def self.email_not_found
+    'incorrect email address'
+  end
 end

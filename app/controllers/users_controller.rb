@@ -3,7 +3,7 @@
 class UsersController < ApplicationController
   before_action :authorize_request, except: %i[create forgot_password reset_password reset_password_mob about_us]
   before_action :is_verified, except: %i[verify create forgot_password reset_password reset_password_mob about_us resend_verification]
-  before_action :check_duplication , only: :update
+  before_action :check_duplication , only: %i[create update]
   # POST /signup
   # return authenticated token upon signup
     
@@ -12,6 +12,7 @@ class UsersController < ApplicationController
     user={name: user.name,email: user.email ,phone: user.phone,avatar: user.avatar}
     json_response(user)
   end
+
   def create
     verificationCode = rand(1000..9999)
     user = User.create!(user_params)
@@ -37,7 +38,6 @@ class UsersController < ApplicationController
     user = User.find_by(id: current_user.id)
     if user.verified==false
       if params[:verification_pin].to_i == user.user_pin
-      
         user.verified = true
         user.save
         response = { message: Message.success}
@@ -47,7 +47,6 @@ class UsersController < ApplicationController
     else
       response={ message: Message.already_verified}
     end
-
     json_response(response)
   end
 
@@ -82,10 +81,16 @@ class UsersController < ApplicationController
   end
 
   def forgot_password
-    @user = User.find_by_email(params[:email])
-    reset_token=JsonWebToken.encode_reset_password(user_id: @user.id)
-    UserMailer.forgot_password(@user, reset_token).deliver_now
-    respone = { message: Message.forgot_password_request}
+    email=(params[:email]).downcase
+    @user = User.find_by_email(email)
+    if @user 
+      reset_token=JsonWebToken.encode_reset_password(user_id: @user.id)
+      UserMailer.forgot_password(@user, reset_token).deliver_now
+      respone = { message: Message.forgot_password_request}
+    else
+      response={message: Message.email_not_found}
+    end
+  
     json_response(respone)
   end
 
