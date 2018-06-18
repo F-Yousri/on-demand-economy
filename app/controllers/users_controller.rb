@@ -83,14 +83,13 @@ class UsersController < ApplicationController
   def forgot_password
     email=(params[:email]).downcase
     @user = User.find_by_email(email)
-    if @user 
+    if @user
       reset_token=JsonWebToken.encode_reset_password(user_id: @user.id)
       UserMailer.forgot_password(@user, reset_token).deliver_now
       respone = { message: Message.forgot_password_request}
     else
       response={message: Message.email_not_found}
     end
-  
     json_response(respone)
   end
 
@@ -115,17 +114,22 @@ class UsersController < ApplicationController
   def change_password
     user=User.find(current_user.id)
    if BCrypt::Password.new(user.password_digest)==params[:password]
-    user.password=params[:new_password]
-    user.save
-    response = { message: Message.success}
+      if params[:new_password]==params[:confirm_password]
+        user.password=params[:new_password]
+        user.save
+        response = { message: Message.success}
+      else
+        response = { message: Message.password_doesnot_match}
+      end
     else
-      response={message: Message.error_while_changing_password}
+      response={message: Message.old_password_doesnot_match}
     end
     json_response(response)
   end
 
   def check_duplication
-    if User.find_by_email(user_params[:email])
+    email=user_params[:email].downcase
+    if User.find_by_email(email)
       json_response({ message: Message.email_already_exists})
     elsif User.find_by_phone(user_params[:phone])
       json_response({ message: Message.phone_already_exists})  
@@ -140,6 +144,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:name,:email,:password,:new_password,:phone,:verified,:verification_pin,:avatar)
+    params.permit(:name,:email,:password,:new_password,:phone,:verified,:verification_pin,:avatar,:confirm_password)
   end
 end

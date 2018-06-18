@@ -81,4 +81,12 @@ class Message
   def self.email_not_found
     'incorrect email address'
   end
+
+  def self.password_doesnot_match
+    "Password Doesn't match"
+  end
+
+  def self.old_password_doesnot_match
+    "current password doesn't match"
+  end
 end
