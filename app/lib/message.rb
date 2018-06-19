@@ -50,7 +50,10 @@ class Message
   def self.success
     'success'
   end
-
+  
+  def self.not_delete
+    'you can\'t delete' 
+  end
   def self.incorrect_verification_code
   'incorrect verification code'
   end
@@ -60,7 +63,7 @@ class Message
   end
 
   def self.error_while_updating_profile
-    'error while update your profile'
+    'Email or Phone already exists'
   end
 
   def self.carrier_not_ready
@@ -71,5 +74,26 @@ class Message
   def self.about_us
     'Driveo App
     app desription here '
+  end
+
+  def self.already_verified
+
+    'you are already verified'
+  end
+
+  def self.email_not_found
+    'incorrect email address'
+  end
+
+  def self.password_doesnot_match
+    "Password Doesn't match"
+  end
+
+  def self.old_password_doesnot_match
+    "current password doesn't match"
+  end
+
+  def self.order_time_error
+    'Order Time Error'  
   end
 end

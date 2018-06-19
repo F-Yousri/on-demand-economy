@@ -3,17 +3,20 @@
 class UsersController < ApplicationController
   before_action :authorize_request, except: %i[create forgot_password reset_password reset_password_mob about_us]
   before_action :is_verified, except: %i[verify create forgot_password reset_password reset_password_mob about_us resend_verification]
-  before_action :check_duplication , only: :update
+  before_action :check_duplication , only: %i[create]
   # POST /signup
   # return authenticated token upon signup
     
   def show 
     user=current_user
+    user={name: user.name,email: user.email ,phone: user.phone,avatar: user.avatar}
     json_response(user)
   end
+
   def create
-    verificationCode = rand(9999)
+    verificationCode = rand(1000..9999)
     user = User.create!(user_params)
+    user['email']=user.email.downcase
     user.user_pin = verificationCode
 
      if user.save
@@ -32,20 +35,25 @@ class UsersController < ApplicationController
 
   def verify
     response ={}
-    if params[:verification_pin].to_i == current_user.user_pin
-      user = User.find_by(id: current_user.id)
-      user.verified = true
-      user.save
-      response = { message: Message.success}
+    user = User.find_by(id: current_user.id)
+    if !user.verified
+      if params[:verification_pin].to_i == user.user_pin
+        user.verified = true
+        user.save
+        response = { message: Message.success}
+      else
+        response = { message: Message.incorrect_verification_code}
+      end
     else
-      response = { message: Message.incorrect_verification_code}
+      response={ message: Message.already_verified}
     end
     json_response(response)
   end
 
   def resend_verification 
     user = User.find_by(id: current_user.id)
-    verificationCode = rand(9999)
+    if !user.verified
+    verificationCode = rand(1000..9999)
     user.user_pin = verificationCode
     if user.save
       # client = Twilio::REST::Client.new(Rails.application.secrets.sms_sid, Rails.application.secrets.sms_token)
@@ -56,6 +64,9 @@ class UsersController < ApplicationController
       #     )
       response={message: Message.success,user:user}
     end
+  else
+    response={message: Message.already_verified}
+  end
       json_response(response)
   end
 
@@ -70,11 +81,16 @@ class UsersController < ApplicationController
   end
 
   def forgot_password
-    @user = User.find_by_email(params[:email])
-    reset_token=JsonWebToken.encode_reset_password(user_id: @user.id)
-    UserMailer.forgot_password(@user, reset_token).deliver_now
-    respone = { message: Message.forgot_password_request}
-    json_response(respone)
+    email=(params[:email]).downcase
+    user = User.find_by_email(email)
+    if user.present?
+      reset_token=JsonWebToken.encode_reset_password(user_id: user.id)
+      UserMailer.forgot_password(user, reset_token).deliver_now
+      response = { message: Message.forgot_password_request}
+    else
+      response={message: Message.email_not_found}
+    end
+    json_response(response)
   end
 
   def reset_password
@@ -98,17 +114,22 @@ class UsersController < ApplicationController
   def change_password
     user=User.find(current_user.id)
    if BCrypt::Password.new(user.password_digest)==params[:password]
-    user.password=params[:new_password]
-    user.save
-    response = { message: Message.success}
+      if params[:new_password]==params[:confirm_password]
+        user.password=params[:new_password]
+        user.save
+        response = { message: Message.success}
+      else
+        response = { message: Message.password_doesnot_match}
+      end
     else
-      response={message: Message.error_while_changing_password}
+      response={message: Message.old_password_doesnot_match}
     end
     json_response(response)
   end
 
   def check_duplication
-    if User.find_by_email(user_params[:email])
+    email=user_params[:email].downcase
+    if User.find_by_email(email)
       json_response({ message: Message.email_already_exists})
     elsif User.find_by_phone(user_params[:phone])
       json_response({ message: Message.phone_already_exists})  
@@ -123,6 +144,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:name,:email,:password,:new_password,:phone,:verified,:verification_pin,:avatar)
+    params.permit(:name,:email,:password,:new_password,:phone,:verified,:verification_pin,:avatar,:confirm_password)
   end
 end

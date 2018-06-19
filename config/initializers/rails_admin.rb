@@ -31,60 +31,12 @@ RailsAdmin.config do |config|
         field :url, :string
         field :name, :string
         field :rate, :integer
-        field :image, :carrierwave,multiple: true
+        field :image, :carrierwave
         field :login_url, :string
         field :secret_key, :string
       end
       
     end
-    config.model 'Order' do
-      edit do
-        field :src_latitude, :float
-        field :src_longitude, :float
-        field :provider_id, :integer
-        field :weight, :float
-        field :dest_latitude, :float
-        field :dest_longitude, :float
-        field :pickup_location, :float
-        field :dropoff_location, :float
-        field :description,:string
-        field :created_by ,:integer
-        field :provider_order_id ,:integer
-        field :status
-        field :time 
-        field :title
-        field :payment_method 
-        field :cost
-        field :images do
-          partial "my_awesome_partial"
-        end
-      end
-    end
-      config.model 'Order' do
-      show do
-          field :src_latitude, :float
-          field :src_longitude, :float
-          field :provider_id, :integer
-          field :weight, :float
-          field :dest_latitude, :float
-          field :dest_longitude, :float
-          field :pickup_location, :float
-          field :dropoff_location, :float
-          field :description,:string
-          field :created_by ,:integer
-          field :provider_order_id ,:integer
-          field :status
-          field :time 
-          field :title
-          field :payment_method 
-          field :cost
-          # field :images do
-          #   pretty_value do
-          #     bindings[:view].render :partial => "multi_images", :locals => {:field => self, :form => bindings[:form]}
-          #   end  
-          # end
-        
-      end
-    end
+    
 
 end

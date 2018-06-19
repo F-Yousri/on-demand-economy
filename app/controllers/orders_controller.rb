@@ -6,11 +6,11 @@ class OrdersController < ApplicationController
     include Callprovider
    
     def create
-        img=[]
         order = Order.new(order_params)
         order.created_by=current_user.id
         order.save!
         time_in_minute =(order.time.to_i - order.created_at.to_i).to_i/60
+<<<<<<< HEAD
         if (time_in_minute >= 60)
             OrderScheduleJob.set(wait: (time_in_minute-60).minute).perform_later(order)
             order.status="upcoming"
@@ -19,16 +19,28 @@ class OrdersController < ApplicationController
         else
             call_provider( true, order)
         end
+=======
+           if (time_in_minute <= 0)
+            json_response({message: Message.order_time_error})
+            elsif (time_in_minute >= 60)
+                OrderScheduleJob.set(wait: (time_in_minute-60).minute).perform_later(order)
+                order.status="upcoming"
+                order.save
+                json_response({message: Message.success})
+            else
+                call_provider(order)
+            end
+      
+     
+>>>>>>> e8e6041813fc9c65fb9665880570f6ce2379a653
     end
 
     def show_history
-        # pending_orders=Order.where(created_by: current_user.id,status: "pending").order(time: :desc)
         active_orders=Order.where(created_by: current_user.id,status: "active").order(time: :desc)
         history_orders=Order.where(created_by: current_user.id,status: "history").order(time: :desc).page(params[:page_number])
         total_history_pages=history_orders.total_pages
         data={active: active_orders,history: history_orders}
         response={message: Message.success ,total_pages: total_history_pages ,data: data}
-        
         json_response(response)
     end
 
@@ -50,20 +62,19 @@ class OrdersController < ApplicationController
         @order = Order.find(params[:id])
     end
     
-    
+    def cancel 
+        
+        order=Order.find(params[:order_id]) 
+        if order.created_by == current_user.id && order.status == "upcoming"
+        order.status = "cancelled"
+        order.save!
+        json_response({message: Message.success})
+        else
+        json_response({message: Message.not_delete})
+        end
+    end
     private
-    # def self.call_provider(order)
-
-    #     @provider=Provider.find(order.provider_id)
-    #     provider_url=@provider.url
-    #     response = Data_provider::Data.new(order,provider_url)
-    #     data=response.get_response.body
-
-    #     # json_response({ message: Message.success , data: JSON[data]}) 
-    #     render json: data
-    # end
-
     def order_params
-        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:weight,:description,:pickup_location,:dropoff_location,images: [])
+        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:weight,:description,:pickup_location,:dropoff_location,:images,:or)
     end
 end

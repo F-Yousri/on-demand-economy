@@ -20,6 +20,7 @@ module Callprovider
         if (new && json_data['message'] == 'success')
             order.status="active"
             order.cost=json_data['cost']
+            order.provider_order_id=json_data['provider_order_id']
             order.save
             render json: { message: Message.success , data: JSON[data]}
         elsif (json_data['message'] == 'success')
