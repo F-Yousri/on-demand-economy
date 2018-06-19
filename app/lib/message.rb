@@ -50,7 +50,10 @@ class Message
   def self.success
     'success'
   end
-
+  
+  def self.not_delete
+    'you can\'t delete' 
+  end
   def self.incorrect_verification_code
   'incorrect verification code'
   end
@@ -91,6 +94,6 @@ class Message
   end
 
   def self.order_time_error
-    'Order Time Error'
+    'Order Time Error'  
   end
 end
