@@ -46,19 +46,13 @@ class OrdersController < ApplicationController
         @order = Order.find(params[:id])
     end
     
-    
+    def cancel 
+        order=Order.find(params[:order_id])
+        order.status="cancelled"
+        order.save
+        json_response({message: Message.success})
+    end
     private
-    # def self.call_provider(order)
-
-    #     @provider=Provider.find(order.provider_id)
-    #     provider_url=@provider.url
-    #     response = Data_provider::Data.new(order,provider_url)
-    #     data=response.get_response.body
-
-    #     # json_response({ message: Message.success , data: JSON[data]}) 
-    #     render json: data
-    # end
-
     def order_params
         params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:weight,:description,:pickup_location,:dropoff_location,:images)
     end
