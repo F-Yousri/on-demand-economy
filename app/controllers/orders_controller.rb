@@ -50,7 +50,7 @@ class OrdersController < ApplicationController
         
         order=Order.find(params[:order_id]) 
         if order.created_by == current_user.id && order.status == "upcoming"
-        order.status="cancelled"
+        order.status = "cancelled"
         order.save
         json_response({message: Message.success})
         else
@@ -59,6 +59,6 @@ class OrdersController < ApplicationController
     end
     private
     def order_params
-        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:weight,:description,:pickup_location,:dropoff_location,:images)
+        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:weight,:description,:pickup_location,:dropoff_location,:images,:order_id)
     end
 end
