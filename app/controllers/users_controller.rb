@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   def verify
     response ={}
     user = User.find_by(id: current_user.id)
-    if user.verified==false
+    if !user.verified
       if params[:verification_pin].to_i == user.user_pin
         user.verified = true
         user.save
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
 
   def resend_verification 
     user = User.find_by(id: current_user.id)
-    if user.verified==false
+    if !user.verified
     verificationCode = rand(1000..9999)
     user.user_pin = verificationCode
     if user.save
@@ -82,10 +82,10 @@ class UsersController < ApplicationController
 
   def forgot_password
     email=(params[:email]).downcase
-    @user = User.find_by_email(email)
-    if @user
-      reset_token=JsonWebToken.encode_reset_password(user_id: @user.id)
-      UserMailer.forgot_password(@user, reset_token).deliver_now
+    user = User.find_by_email(email)
+    if user
+      reset_token=JsonWebToken.encode_reset_password(user_id: user.id)
+      UserMailer.forgot_password(user, reset_token).deliver_now
       respone = { message: Message.forgot_password_request}
     else
       response={message: Message.email_not_found}
