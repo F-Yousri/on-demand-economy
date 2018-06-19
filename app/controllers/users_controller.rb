@@ -83,14 +83,14 @@ class UsersController < ApplicationController
   def forgot_password
     email=(params[:email]).downcase
     user = User.find_by_email(email)
-    if user
+    if user.present?
       reset_token=JsonWebToken.encode_reset_password(user_id: user.id)
       UserMailer.forgot_password(user, reset_token).deliver_now
-      respone = { message: Message.forgot_password_request}
+      response = { message: Message.forgot_password_request}
     else
       response={message: Message.email_not_found}
     end
-    json_response(respone)
+    json_response(response)
   end
 
   def reset_password
