@@ -29,6 +29,8 @@ class GlobalUploader < CarrierWave::Uploader::Base
      model_image='image'
    elsif model.class.to_s.underscore=='payment'
      model_image='image'
+    elsif model.class.to_s.underscore=='order'
+      model_image='images'
     end
 
     if model[model_image] 

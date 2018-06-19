@@ -9,10 +9,10 @@ class OrdersController < ApplicationController
         order = Order.new(order_params)
         order.created_by=current_user.id
         order.save!
-        check_time=(DateTime.now.to_i - order.time.to_i).to_i/60
-        if (check_time < 60)
         time_in_minute =(order.time.to_i - order.created_at.to_i).to_i/60
-            if (time_in_minute >= 60)
+           if (time_in_minute <= 0)
+            json_response({message: Message.order_time_error})
+            elsif (time_in_minute >= 60)
                 OrderScheduleJob.set(wait: (time_in_minute-60).minute).perform_later(order)
                 order.status="upcoming"
                 order.save
@@ -20,9 +20,8 @@ class OrdersController < ApplicationController
             else
                 call_provider(order)
             end
-        else
-            json_response({message: Message.order_time_error})
-        end
+      
+     
     end
 
     def show_history
@@ -61,6 +60,6 @@ class OrdersController < ApplicationController
     # end
 
     def order_params
-        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:weight,:description,:pickup_location,:dropoff_location,images: [])
+        params.permit(:src_latitude,:src_longitude,:dest_latitude,:dest_longitude,:provider_id,:payment_method,:time,:title,:weight,:description,:pickup_location,:dropoff_location,:images)
     end
 end
