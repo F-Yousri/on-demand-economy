@@ -50,7 +50,7 @@ class OrdersController < ApplicationController
         
         order=Order.find(params[:order_id]) 
         if order.created_by == current_user.id && order.status == "upcoming"
-        order.status = "cancelled"
+        order.status = 4
         order.save
         json_response({message: Message.success})
         else
