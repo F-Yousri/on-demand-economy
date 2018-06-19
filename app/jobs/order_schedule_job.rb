@@ -3,7 +3,8 @@ class OrderScheduleJob < ApplicationJob
   queue_as :default
 
   def perform(order)
-    # order.title = "minaaaaa"
+    if (order.status != "cancelled")
     call_provider order
+    end
   end
 end
