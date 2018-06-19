@@ -1,13 +1,8 @@
 module Data_provider
     class Data
-        attr_accessor :response,:conn,:response_login
-        def initialize(order,provider)
+        attr_accessor :response,:conn,:response_login,:response_driver
+        def initialize(provider)
            login(provider)
-               if JSON[self.response_login.body]['message'] == 'success'
-                get_data(order,provider)
-               else
-                self.response={message: "error"}
-               end
         end
 
         def login(provider)
@@ -44,6 +39,18 @@ module Data_provider
 
         def get_response
           self.response
+        end
+
+        def track_order (provider, provider_order_id)
+            self.conn = Faraday.new(:url => provider.driver_url)
+            self.response_driver =self.conn.post do |req|
+                req.url  provider.driver_url
+                req.headers['Authorization'] = JSON[self.response_login.body]['auth_token']
+                 req.body ={
+                    :order_id =>provider_order_id,
+                            }
+            end
+             self.response=self.response_driver.body
         end
     end
 end

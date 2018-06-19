@@ -17,7 +17,7 @@ class OrdersController < ApplicationController
             order.save
             json_response({message: Message.success})
         else
-            call_provider(order)
+            call_provider( true, order)
         end
     end
 
@@ -30,6 +30,11 @@ class OrdersController < ApplicationController
         response={message: Message.success ,total_pages: total_history_pages ,data: data}
         
         json_response(response)
+    end
+
+    def track
+        order=Order.find(params[:order_id])
+        call_provider(order)
     end
 
     def show_upcoming
