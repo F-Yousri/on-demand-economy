@@ -3,7 +3,7 @@
 class UsersController < ApplicationController
   before_action :authorize_request, except: %i[create forgot_password reset_password reset_password_mob about_us]
   before_action :is_verified, except: %i[verify create forgot_password reset_password reset_password_mob about_us resend_verification]
-  before_action :check_duplication , only: %i[create update]
+  before_action :check_duplication , only: %i[create]
   # POST /signup
   # return authenticated token upon signup
     

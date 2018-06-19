@@ -60,7 +60,7 @@ class Message
   end
 
   def self.error_while_updating_profile
-    'error while update your profile'
+    'Email or Phone already exists'
   end
 
   def self.carrier_not_ready
