@@ -3,10 +3,10 @@ class AuthenticationController < ApplicationController
   before_action :authorize_request, except: :authenticate
 
   def authenticate
-     
-    auth_token =AuthenticateUser.new(auth_params[:email], auth_params[:password]).call
+     email=(auth_params[:email]).downcase
+    auth_token =AuthenticateUser.new(email, auth_params[:password]).call
 
-    user=User.find_by_email(auth_params[:email])
+    user=User.find_by_email(email)
     if user.verified
 
     response={ message: Message.success, auth_token: auth_token, user: {name: user.name, email: user.email, phone: user.phone, avatar: user.avatar} }
