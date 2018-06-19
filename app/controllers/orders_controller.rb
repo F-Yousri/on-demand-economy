@@ -9,14 +9,19 @@ class OrdersController < ApplicationController
         order = Order.new(order_params)
         order.created_by=current_user.id
         order.save!
+        check_time=(DateTime.now.to_i - order.time.to_i).to_i/60
+        if (check_time < 60)
         time_in_minute =(order.time.to_i - order.created_at.to_i).to_i/60
-        if (time_in_minute >= 60)
-            OrderScheduleJob.set(wait: (time_in_minute-60).minute).perform_later(order)
-            order.status="upcoming" # Temp remove it later
-            order.save
-            json_response({message: Message.success})
+            if (time_in_minute >= 60)
+                OrderScheduleJob.set(wait: (time_in_minute-60).minute).perform_later(order)
+                order.status="upcoming"
+                order.save
+                json_response({message: Message.success})
+            else
+                call_provider(order)
+            end
         else
-            call_provider(order)
+            json_response({message: Message.order_time_error})
         end
     end
 

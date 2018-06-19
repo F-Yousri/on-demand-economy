@@ -89,4 +89,8 @@ class Message
   def self.old_password_doesnot_match
     "current password doesn't match"
   end
+
+  def self.order_time_error
+    'Order Time Error'
+  end
 end
