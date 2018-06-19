@@ -47,11 +47,9 @@ class OrdersController < ApplicationController
     end
     
     def cancel 
-        # order=Order.where(id: params[:order_id],created_by: current_user.id)
-        # order=Order.where("id = :id AND created_by = :created_by ",
-        #     {id:params[:order_id], created_by: current_user.id})
-        order=Order.find(params[:order_id])
-        if order.created_by == current_user.id
+        
+        order=Order.find(params[:order_id]) 
+        if order.created_by == current_user.id && order.status == "upcoming"
         order.status="cancelled"
         order.save
         json_response({message: Message.success})
