@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
         time_in_minute =(order.time.to_i - order.created_at.to_i).to_i/60
            if (time_in_minute <= 0)
             json_response({message: Message.order_time_error})
-            elsif (time_in_minute >= 60)
+            elsif (time_in_minute - 120 >= 60)
                 OrderScheduleJob.set(wait: (time_in_minute-60).minute).perform_later(order)
                 order.status="upcoming"
                 order.save
