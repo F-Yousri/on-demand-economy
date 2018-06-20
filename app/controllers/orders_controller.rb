@@ -33,6 +33,11 @@ class OrdersController < ApplicationController
         json_response(response)
     end
 
+    def track
+        order=Order.find(params[:order_id])
+        call_provider(order)
+    end
+
     def show_upcoming
         upcoming_orders=Order.where(created_by: current_user.id,status: "upcoming").order(time: :desc).page(params[:page_number])
         total_upcoming_pages=upcoming_orders.total_pages
