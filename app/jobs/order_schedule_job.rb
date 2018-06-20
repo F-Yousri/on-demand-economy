@@ -4,7 +4,7 @@ class OrderScheduleJob < ApplicationJob
 
   def perform(order)
     if (order.status != "cancelled")
-    call_provider order
+    call_provider (true, order)
     end
   end
 end
