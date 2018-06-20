@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
                 order.save
                 json_response({message: Message.success})
             else
-                call_provider(order)
+                call_provider(true, order)
             end
       
      
