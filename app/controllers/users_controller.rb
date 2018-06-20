@@ -20,13 +20,13 @@ class UsersController < ApplicationController
     user.user_pin = verificationCode
 
      if user.save
-      UserMailer.registeration_confirmation(user).deliver_now
-      client = Twilio::REST::Client.new(Rails.application.secrets.sms_sid, Rails.application.secrets.sms_token)
-        client.api.account.messages.create(
-          from: Rails.application.secrets.sms_sender,
-          to: '+2'+user.phone,
-          body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
-          )
+      # UserMailer.registeration_confirmation(user).deliver_now
+      # client = Twilio::REST::Client.new(Rails.application.secrets.sms_sid, Rails.application.secrets.sms_token)
+      #   client.api.account.messages.create(
+      #     from: Rails.application.secrets.sms_sender,
+      #     to: '+2'+user.phone,
+      #     body: "Thanks #{user.name} for signing up. Your Verification Code is #{verificationCode} . \n "
+      #     )
       auth_token = AuthenticateUser.new(user.email, user.password).call
       response = { message: Message.success, auth_token: auth_token, user: user }
      end
