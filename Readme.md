@@ -1,4 +1,4 @@
-This repo is built by:
+This repo was built by:
 1-Fahd Yousri
 2-Mina Ibrahim
 3-Mina Samy
